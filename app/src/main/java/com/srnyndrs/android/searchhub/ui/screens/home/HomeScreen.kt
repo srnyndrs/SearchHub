@@ -42,7 +42,9 @@ fun HomeScreen(
             modifier = Modifier.padding(8.dp),
             verticalArrangement = Arrangement.Top
         ) {
-            Row {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 OutlinedTextField(
                     value = query.value,
                     onValueChange = {
@@ -55,7 +57,7 @@ fun HomeScreen(
                     },
                     label = { Text(text = "Search") }
                 )
-                Spacer(modifier = Modifier.padding(6.dp))
+                Spacer(modifier = Modifier.padding(horizontal = 6.dp))
                 Button(
                     onClick = {
                         viewModel.fetchRepositories(query.value)
