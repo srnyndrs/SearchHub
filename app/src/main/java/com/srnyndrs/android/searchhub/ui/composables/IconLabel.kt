@@ -1,10 +1,10 @@
 package com.srnyndrs.android.searchhub.ui.composables
 
-import android.graphics.drawable.Icon
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,9 +19,8 @@ fun IconLabel(
     label: String,
     value: String
 ) {
-    Row (
+    Row(
         modifier = Modifier.padding(top = 6.dp, bottom = 6.dp),
-        verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(imageVector = icon, contentDescription = icon.name)
         Spacer(modifier = Modifier.padding(4.dp))

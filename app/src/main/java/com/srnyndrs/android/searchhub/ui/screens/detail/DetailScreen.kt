@@ -1,5 +1,6 @@
 package com.srnyndrs.android.searchhub.ui.screens.detail
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -37,19 +38,23 @@ fun DetailScreen(
             // Upper bar
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 IconButton(
-                    onClick = { navController.navigate(Screens.HomeScreen.route) }
+                    onClick = {
+                        navController.navigate(Screens.HomeScreen.route){
+                            popUpTo(0)
+                        }
+                    }
                 ) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = null
                     )
                 }
-                Spacer(modifier = Modifier.padding(16.dp))
-                Text(text = repository.name ?: "Unknown")
-                Spacer(modifier = Modifier.padding(32.dp))
+                Text(text = "Results for \"${viewModel.selectedQualifier.value}${viewModel.query.value}\"")
+                Spacer(modifier = Modifier.fillMaxWidth())
             }
             // Content
             RepositoryDetail(repository = repository)

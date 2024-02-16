@@ -17,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -58,7 +59,10 @@ fun OwnerCard(
             .padding(top = 12.dp, bottom = 12.dp),
         onClick = {
             context.startActivity(intent)
-        }
+        },
+        colors = CardDefaults.cardColors(
+            containerColor = Color.Gray,
+        )
     ) {
         Row(
             modifier = Modifier.padding(6.dp),
@@ -81,10 +85,6 @@ fun OwnerCard(
                 val imageLoader =
                     ImageLoader.Builder(context).respectCacheHeaders(false).build()
                 val painter = rememberAsyncImagePainter(imageRequest, imageLoader)
-                if (painter.state is AsyncImagePainter.State.Error) {
-                    // This will be executed during the first composition if the image is in the memory cache.
-                    Log.d("OwnerCard", (painter.state as AsyncImagePainter.State.Error).result.throwable.message.toString())
-                }
                 Image(
                     modifier = Modifier
                         .size(DpSize(64.dp, 64.dp))

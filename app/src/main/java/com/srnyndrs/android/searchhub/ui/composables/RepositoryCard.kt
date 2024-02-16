@@ -12,26 +12,34 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.srnyndrs.android.searchhub.data.model.Repository
+import com.srnyndrs.android.searchhub.data.util.formatDate
 import com.srnyndrs.android.searchhub.ui.screens.detail.DetailScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RepositoryCard(repository: Repository, onClick: () -> Unit) {
+fun RepositoryCard(
+    repository: Repository, onClick: () -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(6.dp),
         onClick = onClick,
+        colors = CardDefaults.cardColors(
+            containerColor = Color.DarkGray,
+        )
     ) {
         Column(
             modifier = Modifier.fillMaxWidth().padding(12.dp),
@@ -41,7 +49,10 @@ fun RepositoryCard(repository: Repository, onClick: () -> Unit) {
             // Name
             Text(text = repository.name ?: "Unknown", fontWeight = FontWeight.Bold)
             // Description
-            Text(text = repository.description ?: "Unknown")
+            val description = repository.description ?: ""
+            Text(
+                text = if(description.length > 40) { description.chunked(40)[0].plus(" ...")} else { description }
+            )
             // Stars
             IconLabel(
                 icon = Icons.Default.Star,
@@ -53,7 +64,7 @@ fun RepositoryCard(repository: Repository, onClick: () -> Unit) {
             IconLabel(
                 icon = Icons.Default.Refresh, // TODO
                 label = "Updated",
-                value =  repository.updatedAt ?: "--.--"
+                value =  repository.updatedAt?.formatDate()?.first ?: "--.--"
             )
         }
     }
