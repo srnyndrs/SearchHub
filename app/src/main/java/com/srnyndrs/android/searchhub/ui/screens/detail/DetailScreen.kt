@@ -33,13 +33,13 @@ fun DetailScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp)
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Upper bar
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier.fillMaxWidth().padding(bottom = 6.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(
                     onClick = {
@@ -54,7 +54,6 @@ fun DetailScreen(
                     )
                 }
                 Text(text = "Results for \"${viewModel.selectedQualifier.value}${viewModel.query.value}\"")
-                Spacer(modifier = Modifier.fillMaxWidth())
             }
             // Content
             RepositoryDetail(repository = repository)

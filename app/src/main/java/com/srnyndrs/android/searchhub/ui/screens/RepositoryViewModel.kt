@@ -38,7 +38,6 @@ class RepositoryViewModel @Inject constructor(
                         "HTTP 503 " -> { "Service unavailable" }
                         else -> { errorMessage }
                     }
-                    Log.d("ViewModel", result.message.toString())
                     repositories.value = ApiState(error = errorText)
                 }
                 is Resource.Success -> {

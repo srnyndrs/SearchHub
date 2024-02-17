@@ -30,11 +30,8 @@ fun PropertyCard (
     Card (
         modifier = Modifier
             .width(156.dp)
-            .height(156.dp)
-            .padding(4.dp),
-        /*colors = CardDefaults.cardColors(
-            containerColor = Color.DarkGray,
-        )*/
+            .height(128.dp)
+            .padding(vertical = 4.dp)
     ) {
         Column(
             modifier = Modifier
@@ -45,18 +42,19 @@ fun PropertyCard (
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(imageVector = icon, contentDescription = icon.name)
-                Spacer(modifier = Modifier.padding(horizontal = 3.dp))
+                Spacer(modifier = Modifier.padding(horizontal = 1.dp))
                 Text(text = label)
             }
-            Spacer(modifier = Modifier.padding(6.dp))
+            Spacer(modifier = Modifier.padding(vertical = 3.dp))
             if(secondValue.isEmpty()) {
                 Text(text = value)
             } else {
                 Text(text = value)
-                Spacer(modifier = Modifier.padding(vertical = 6.dp))
+                Spacer(modifier = Modifier.padding(vertical = 3.dp))
                 Text(text = secondValue)
             }
         }

@@ -13,15 +13,19 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.srnyndrs.android.searchhub.R
 import com.srnyndrs.android.searchhub.data.model.Repository
 import com.srnyndrs.android.searchhub.data.util.formatDate
 import com.srnyndrs.android.searchhub.ui.screens.detail.DetailScreen
@@ -36,33 +40,39 @@ fun RepositoryCard(
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(vertical = 6.dp),
-        onClick = onClick,
-        /*colors = CardDefaults.cardColors(
-            containerColor = Color.DarkGray,
-        )*/
+        onClick = onClick
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth().padding(12.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.Start
         ) {
             // Name
             Text(text = repository.name ?: "Unknown", fontWeight = FontWeight.Bold)
             // Description
+            Divider(thickness = 1.dp)
+            Spacer(modifier = Modifier.padding(vertical = 2.dp))
             val description = repository.description ?: "No description provided"
             Text(
-                text = if(description.length > 40) { description.chunked(40)[0].plus(" ...")} else { description }
+                text = if(description.length > 40) {
+                            description.chunked(40)[0].plus(" ...")
+                        } else {
+                            description
+                        }
             )
+            Spacer(modifier = Modifier.padding(vertical = 2.dp))
             // Stars
             IconLabel(
                 icon = Icons.Default.Star,
                 label = "Stars",
                 value = (repository.stargazersCount ?: 0).toString()
             )
-            Spacer(modifier = Modifier.padding(horizontal = 12.dp))
+            Spacer(modifier = Modifier.padding(vertical = 2.dp))
             // Last update
             IconLabel(
-                icon = Icons.Default.Refresh, // TODO
+                icon = ImageVector.vectorResource(R.drawable.calendar_refresh),
                 label = "Updated",
                 value =  repository.updatedAt?.formatDate()?.first ?: "--.--"
             )
