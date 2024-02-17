@@ -32,9 +32,9 @@ fun PropertyCard (
             .width(156.dp)
             .height(156.dp)
             .padding(4.dp),
-        colors = CardDefaults.cardColors(
+        /*colors = CardDefaults.cardColors(
             containerColor = Color.DarkGray,
-        )
+        )*/
     ) {
         Column(
             modifier = Modifier

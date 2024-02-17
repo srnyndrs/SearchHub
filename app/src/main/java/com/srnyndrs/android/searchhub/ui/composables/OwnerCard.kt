@@ -1,9 +1,12 @@
 package com.srnyndrs.android.searchhub.ui.composables
 
 import android.content.Intent
+import android.content.res.Resources.Theme
 import android.net.Uri
 import android.util.Log
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +25,8 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -54,14 +59,15 @@ fun OwnerCard(
     val context = LocalContext.current
     val intent = remember { Intent(Intent.ACTION_VIEW, Uri.parse(owner?.htmlURL)) }
 
-    Card(
+    OutlinedCard(
+        border = BorderStroke(2.dp, Color.Black),
         modifier = Modifier
             .padding(top = 12.dp, bottom = 12.dp),
         onClick = {
             context.startActivity(intent)
         },
         colors = CardDefaults.cardColors(
-            containerColor = Color.Gray,
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
         )
     ) {
         Row(
@@ -71,9 +77,9 @@ fun OwnerCard(
             // Avatar image
             Box(
                 modifier = Modifier
-                    .size(DpSize(64.dp, 64.dp))
+                    .size(DpSize(32.dp, 32.dp))
                     .clip(CircleShape)
-                    .border(3.dp, Color.Black, CircleShape),
+                    .border(1.dp, Color.Black, CircleShape),
                 contentAlignment = Alignment.Center
             ) {
                 val imageRequest = ImageRequest.Builder(context)
@@ -87,19 +93,19 @@ fun OwnerCard(
                 val painter = rememberAsyncImagePainter(imageRequest, imageLoader)
                 Image(
                     modifier = Modifier
-                        .size(DpSize(64.dp, 64.dp))
+                        .size(DpSize(32.dp, 32.dp))
                         .clip(CircleShape),
                     painter = painter,
                     contentDescription = null
                 )
             }
-            Spacer(modifier = Modifier.padding(6.dp))
+            Spacer(modifier = Modifier.padding(3.dp))
             Column(
                 modifier = Modifier.padding(3.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 // Owner name
-                Text(text = owner?.login ?: "", fontSize = 20.sp)
+                Text(text = owner?.login ?: "", fontSize = 16.sp)
             }
         }
     }

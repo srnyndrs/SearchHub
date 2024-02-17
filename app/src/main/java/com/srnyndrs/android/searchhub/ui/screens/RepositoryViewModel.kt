@@ -1,5 +1,6 @@
 package com.srnyndrs.android.searchhub.ui.screens
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,7 +21,7 @@ class RepositoryViewModel @Inject constructor(
     private val repository: SearchRepository
 ): ViewModel() {
     val repositories: MutableState<ApiState> = mutableStateOf(ApiState())
-    // Variable to store search history
+    // Variables to store search history
     val query = mutableStateOf("")
     val selectedQualifier = mutableStateOf("")
 
@@ -31,11 +32,22 @@ class RepositoryViewModel @Inject constructor(
         try {
             when(val result = repository.getRepositories(qualifier + text)){
                 is Resource.Error -> {
-                    repositories.value = ApiState(error = result.message.toString())
+                    val errorText = when(val errorMessage = result.message.toString()) {
+                        "HTTP 304 " -> { "Not modified" }
+                        "HTTP 422 " -> { "Validation failed" }
+                        "HTTP 503 " -> { "Service unavailable" }
+                        else -> { errorMessage }
+                    }
+                    Log.d("ViewModel", result.message.toString())
+                    repositories.value = ApiState(error = errorText)
                 }
                 is Resource.Success -> {
-                    result.data?.items?.let {
-                        repositories.value = ApiState(data = it)
+                    val data = result.data?.items ?: listOf()
+                    // Check if the result is not empty
+                    if(data.isNotEmpty()) {
+                        repositories.value = ApiState(data = result.data?.items ?: listOf())
+                    } else {
+                        repositories.value = ApiState(error = "No results found")
                     }
                 }
             }

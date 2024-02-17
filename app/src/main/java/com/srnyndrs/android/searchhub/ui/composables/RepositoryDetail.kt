@@ -46,10 +46,7 @@ fun RepositoryDetail(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = Color.DarkGray,
-            )
+                .padding(12.dp)
         ) {
             // Repository name and Link
             Column(

@@ -35,11 +35,11 @@ fun RepositoryCard(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(6.dp),
+            .padding(vertical = 6.dp),
         onClick = onClick,
-        colors = CardDefaults.cardColors(
+        /*colors = CardDefaults.cardColors(
             containerColor = Color.DarkGray,
-        )
+        )*/
     ) {
         Column(
             modifier = Modifier.fillMaxWidth().padding(12.dp),
@@ -49,7 +49,7 @@ fun RepositoryCard(
             // Name
             Text(text = repository.name ?: "Unknown", fontWeight = FontWeight.Bold)
             // Description
-            val description = repository.description ?: ""
+            val description = repository.description ?: "No description provided"
             Text(
                 text = if(description.length > 40) { description.chunked(40)[0].plus(" ...")} else { description }
             )
