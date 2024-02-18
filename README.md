@@ -1,4 +1,4 @@
-# <img src="images/logo.png" style="float: left; padding-right:10px;" height="38px" width="38px"> SearchHub
+# <img src="images/logo.png" style="float: left; padding-right:10px;" height="32px" width="32px"> SearchHub
 
 ### The main goal of this application is to search github repositories through the GitHub Search API.
 
