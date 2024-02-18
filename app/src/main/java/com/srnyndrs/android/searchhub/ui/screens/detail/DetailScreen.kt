@@ -1,24 +1,18 @@
 package com.srnyndrs.android.searchhub.ui.screens.detail
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.srnyndrs.android.searchhub.ui.composables.RepositoryDetail
+import com.srnyndrs.android.searchhub.ui.composables.DetailsTopBar
 import com.srnyndrs.android.searchhub.ui.navigation.Screens
 import com.srnyndrs.android.searchhub.ui.screens.RepositoryViewModel
 
@@ -28,34 +22,29 @@ fun DetailScreen(
     viewModel: RepositoryViewModel,
     repositoryIndex: Int
 ) {
+    // Variable to store the selected repository
     val repository = viewModel.getRepository(repositoryIndex)
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 6.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Upper bar
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(bottom = 6.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                IconButton(
-                    onClick = {
-                        navController.navigate(Screens.HomeScreen.route){
-                            popUpTo(0)
-                        }
+            // Top Bar
+            DetailsTopBar(
+                title = "Results for \"${viewModel.query.value}\"",
+                onNavigationBack = {
+                    // Navigate back to Home screen
+                    navController.navigate(Screens.HomeScreen.route){
+                        popUpTo(0)
                     }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = null
-                    )
                 }
-                Text(text = "Results for \"${viewModel.selectedQualifier.value}${viewModel.query.value}\"")
-            }
-            // Content
+            )
+            Spacer(modifier = Modifier.padding(vertical = 3.dp))
+            // Detail Content
             RepositoryDetail(repository = repository)
         }
     }

@@ -1,4 +1,4 @@
-package com.srnyndrs.android.searchhub.data.util
+package com.srnyndrs.android.searchhub.data.shared
 
 import com.srnyndrs.android.searchhub.data.model.Repository
 

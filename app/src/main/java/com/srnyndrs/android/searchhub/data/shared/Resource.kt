@@ -1,4 +1,4 @@
-package com.srnyndrs.android.searchhub.data.util
+package com.srnyndrs.android.searchhub.data.shared
 
 sealed class Resource<T>(val data: T? = null, val message: String? = null) {
     class Success<T>(data: T?) : Resource<T>(data = data)

@@ -2,21 +2,15 @@ package com.srnyndrs.android.searchhub.ui.composables
 
 import android.content.Intent
 import android.net.Uri
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
@@ -27,45 +21,59 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.srnyndrs.android.searchhub.R
 import com.srnyndrs.android.searchhub.data.model.Repository
-import com.srnyndrs.android.searchhub.data.util.formatDate
+import com.srnyndrs.android.searchhub.data.shared.MockData
+import com.srnyndrs.android.searchhub.data.util.convertToDate
+import com.srnyndrs.android.searchhub.data.util.getDate
+import com.srnyndrs.android.searchhub.data.util.getTime
 
 @Composable
 fun RepositoryDetail(
     repository: Repository
 ) {
     val context = LocalContext.current
+
+    // Intent to navigate repository's page
     val intent = remember { Intent(Intent.ACTION_VIEW, Uri.parse(repository.htmlURL)) }
+
     Column(
         modifier = Modifier.padding(horizontal = 20.dp)
     ) {
+        // Repository card
         Card(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            // Repository name and Link
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(12.dp)
+                    .padding(start = 12.dp, end = 12.dp, bottom = 24.dp, top = 12.dp)
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     // Repository Name
-                    Text(text = repository.name ?: "Unknown", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                    //
-                    IconButton(onClick = { context.startActivity(intent) }) {
+                    Text(
+                        modifier = Modifier.weight(0.9f),
+                        text = repository.name ?: "[repository name]",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    // External link to repository
+                    Spacer(modifier = Modifier.padding(horizontal = 3.dp))
+                    IconButton(
+                        modifier = Modifier.weight(0.1f),
+                        onClick = { context.startActivity(intent) }
+                    ) {
                         Icon(
                             imageVector = ImageVector.vectorResource(R.drawable.external_link),
                             contentDescription = null
@@ -83,51 +91,66 @@ fun RepositoryDetail(
         // Owner's card
         OwnerCard(owner = repository.owner)
         Spacer(modifier = Modifier.padding(vertical = 12.dp))
-        // Fields
+        // Property cards in grid
         Column(
             modifier = Modifier
                 .height(IntrinsicSize.Max)
                 .fillMaxWidth()
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth().weight(1f),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 // Number of stars
                 PropertyCard(
                     icon = Icons.Default.Star,
                     label = "Stars",
-                    value = (repository.stargazersCount ?: 0).toString()
+                    values = listOf((repository.stargazersCount ?: 0).toString())
                 )
                 // Number of forks
                 PropertyCard(
                     icon = ImageVector.vectorResource(R.drawable.source_fork),
                     label = "Forks",
-                    value = (repository.forksCount ?: 0).toString()
+                    values = listOf((repository.forksCount ?: 0).toString())
                 )
             }
+            Spacer(modifier = Modifier.padding(vertical = 6.dp))
             Row(
-                modifier = Modifier.fillMaxWidth().weight(1f),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 // Date of creation
+                val createDate = repository.createdAt?.convertToDate()
                 PropertyCard(
                     icon = ImageVector.vectorResource(R.drawable.calendar_blank),
                     label = "Created",
-                    value = repository.createdAt?.formatDate()?.first ?: "yyyy-mm-dd",
-                    // TODO
-                    //secondValue = repository.createdAt?.formatDate()?.second ?: "HH:mm"
+                    values = listOf(
+                        createDate.getDate(),
+                        createDate.getTime()
+                    )
                 )
                 // Date of last update
+                val lastUpdate = repository.updatedAt?.convertToDate()
                 PropertyCard(
                     icon = ImageVector.vectorResource(R.drawable.calendar_refresh),
                     label = "Updated",
-                    value = repository.updatedAt?.formatDate()?.first ?: "yyyy-mm-dd",
-                    // TODO
-                    //secondValue = repository.updatedAt?.formatDate()?.second ?: "HH:mm"
+                    values = listOf(
+                        lastUpdate.getDate(),
+                        lastUpdate.getTime()
+                    )
                 )
             }
         }
 
     }
+}
+
+@Preview
+@Composable
+fun RepositoryDetailPreview() {
+    RepositoryDetail(repository = MockData.repository)
 }

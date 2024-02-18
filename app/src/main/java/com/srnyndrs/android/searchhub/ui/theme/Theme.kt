@@ -74,7 +74,7 @@ private val DarkColors = darkColorScheme(
 @Composable
 fun SearchHubTheme(
   useDarkTheme: Boolean = isSystemInDarkTheme(),
-  content: @Composable() () -> Unit
+  content: @Composable () -> Unit
 ) {
   val colors = if (!useDarkTheme) {
     LightColors
@@ -84,6 +84,7 @@ fun SearchHubTheme(
 
   MaterialTheme(
     colorScheme = colors,
-    content = content
+    content = content,
+    typography = Typography
   )
 }

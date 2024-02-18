@@ -19,9 +19,11 @@ fun NavigationGraph(
         navController = navController,
         startDestination = Screens.HomeScreen.route
     ) {
+        // Home screen
         composable(Screens.HomeScreen.route) {
             HomeScreen(navController = navController, viewModel = viewModel)
         }
+        // Detail screen by repository index
         composable(
             Screens.DetailScreen.route + "/{repositoryIndex}",
             arguments = listOf(
