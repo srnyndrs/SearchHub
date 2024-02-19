@@ -102,7 +102,7 @@ fun SearchBar(
                 .align(Alignment.CenterVertically)
                 .padding(top = 12.dp, bottom = 6.dp)
                 .weight(0.3f),
-            onClick = { onSearch() },
+            onClick = onSearch,
             shape = RoundedCornerShape(4.dp),
             enabled = query.value.isNotEmpty()
         ) {

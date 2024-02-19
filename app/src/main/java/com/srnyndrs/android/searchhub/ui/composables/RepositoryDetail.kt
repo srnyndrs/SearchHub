@@ -107,13 +107,13 @@ fun RepositoryDetail(
                 PropertyCard(
                     icon = Icons.Default.Star,
                     label = "Stars",
-                    values = listOf((repository.stargazersCount ?: 0).toString())
+                    values = listOf(repository.stargazersCount?.toString() ?: "Unknown")
                 )
                 // Number of forks
                 PropertyCard(
                     icon = ImageVector.vectorResource(R.drawable.source_fork),
                     label = "Forks",
-                    values = listOf((repository.forksCount ?: 0).toString())
+                    values = listOf(repository.forksCount?.toString() ?: "Unknown")
                 )
             }
             Spacer(modifier = Modifier.padding(vertical = 6.dp))

@@ -20,7 +20,7 @@ fun Date?.getDateTime(): String {
 // Formats date to string with 'yyyy.MM.dd.' pattern
 fun Date?.getDate(): String {
     val dateFormatter = SimpleDateFormat("yyyy.MM.dd.", Locale.ENGLISH)
-    return this?.let { dateFormatter.format(it) } ?: "----.--.--"
+    return this?.let { dateFormatter.format(it) } ?: "----.--.--."
 }
 
 // Formats date to string with 'HH:mm' pattern

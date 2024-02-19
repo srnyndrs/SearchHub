@@ -1,6 +1,5 @@
 package com.srnyndrs.android.searchhub.ui.composables
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -24,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.srnyndrs.android.searchhub.R
 import com.srnyndrs.android.searchhub.data.model.Repository
 import com.srnyndrs.android.searchhub.data.shared.Constants
+import com.srnyndrs.android.searchhub.data.shared.MockData
 import com.srnyndrs.android.searchhub.data.util.convertToDate
 import com.srnyndrs.android.searchhub.data.util.getDateTime
 
@@ -81,12 +81,7 @@ fun RepositoryCard(
 @Composable
 fun RepositoryCardPreview() {
     RepositoryCard(
-        repository = Repository(
-            name = "docker",
-            description = "Official repository for docker",
-            stargazersCount = 5,
-            updatedAt = "2024-02-18T10:00:00Z"
-        ),
-        onClick = { Log.d("RepositoryCard", "Card clicked") }
+        repository = MockData.repository,
+        onClick = {}
     )
 }
