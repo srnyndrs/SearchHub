@@ -1,21 +1,25 @@
 package com.srnyndrs.android.searchhub.data.repository
 
-import com.srnyndrs.android.searchhub.data.api.ApiService
-import com.srnyndrs.android.searchhub.data.model.SearchResponse
-import com.srnyndrs.android.searchhub.data.shared.Resource
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.srnyndrs.android.searchhub.data.remote.ApiService
+import com.srnyndrs.android.searchhub.data.remote.RepositoryPagingSource
+import com.srnyndrs.android.searchhub.domain.model.Repository
+import com.srnyndrs.android.searchhub.domain.repository.SearchRepository
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class SearchRepository @Inject constructor(
-    // Inject ApiService dependency into the repository
+class SearchRepositoryImpl @Inject constructor(
     private val apiService: ApiService
-) {
-    // Suspend function to fetch repositories based on the provided string
-    suspend fun getRepositories(query: String): Resource<SearchResponse> {
-        return try {
-            val result = apiService.getRepositories(query)
-            Resource.Success(data = result)
-        } catch (e: Exception) {
-            Resource.Error(message = e.message.toString())
-        }
+): SearchRepository {
+    override fun getRepositories(query: String): Flow<PagingData<Repository>>{
+        return Pager(
+            config = PagingConfig(
+                pageSize = ApiService.PAGE_SIZE,
+                prefetchDistance = 1
+            ),
+            pagingSourceFactory = { RepositoryPagingSource(apiService, query) }
+        ).flow
     }
 }
