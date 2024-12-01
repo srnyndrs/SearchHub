@@ -1,5 +1,6 @@
 package com.srnyndrs.android.searchhub.data.remote
 
+import com.srnyndrs.android.searchhub.data.remote.dto.SearchResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

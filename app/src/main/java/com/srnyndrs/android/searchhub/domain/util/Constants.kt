@@ -1,16 +1,7 @@
 package com.srnyndrs.android.searchhub.domain.util
 
 object Constants {
-    const val DESCRIPTION_CHAR_LIMIT = 35
-    val qualifiers = arrayListOf(
-        "user:",
-        "stars:",
-        "forks:",
-        "created:",
-        "pushed:",
-        "in:name:",
-        "in:description:"
-    )
+    const val DESCRIPTION_CHAR_LIMIT = 50
     val errorCodes = hashMapOf(
         "HTTP 304" to "Not modified" ,
         "HTTP 422" to "Validation failed, or the endpoint has been spammed",

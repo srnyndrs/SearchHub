@@ -1,8 +1,9 @@
-package com.srnyndrs.android.searchhub.data.remote
+package com.srnyndrs.android.searchhub.data.remote.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.srnyndrs.android.searchhub.data.mapper.toDomain
+import com.srnyndrs.android.searchhub.data.remote.ApiService
 import com.srnyndrs.android.searchhub.domain.model.Repository
 
 class RepositoryPagingSource(

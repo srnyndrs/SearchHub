@@ -1,4 +1,4 @@
-package com.srnyndrs.android.searchhub.data.remote
+package com.srnyndrs.android.searchhub.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 

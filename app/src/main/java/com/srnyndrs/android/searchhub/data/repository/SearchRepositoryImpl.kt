@@ -4,7 +4,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.srnyndrs.android.searchhub.data.remote.ApiService
-import com.srnyndrs.android.searchhub.data.remote.RepositoryPagingSource
+import com.srnyndrs.android.searchhub.data.remote.paging.RepositoryPagingSource
 import com.srnyndrs.android.searchhub.domain.model.Repository
 import com.srnyndrs.android.searchhub.domain.repository.SearchRepository
 import kotlinx.coroutines.flow.Flow

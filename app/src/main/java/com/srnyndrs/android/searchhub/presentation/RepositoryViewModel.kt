@@ -23,13 +23,11 @@ class RepositoryViewModel @Inject constructor(
     var selectedRepository: Repository? = null
 
     fun fetchRepositories(text: String) = viewModelScope.launch {
-        repository.getRepositories(text).cachedIn(this).collect{
-            _repositories.value = it
-        }
-    }
-
-    fun selectRepository(repository: Repository) {
-        selectedRepository = repository
+        repository.getRepositories(text)
+            .cachedIn(this)
+            .collect{
+                _repositories.value = it
+            }
     }
 
     fun clearRepositories() {

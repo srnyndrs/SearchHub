@@ -2,14 +2,15 @@ package com.srnyndrs.android.searchhub.presentation.home_screen.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,61 +18,87 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.srnyndrs.android.searchhub.R
-import com.srnyndrs.android.searchhub.domain.model.Owner
 import com.srnyndrs.android.searchhub.domain.model.Repository
+import com.srnyndrs.android.searchhub.domain.sample.SampleRepositoryProvider
 import com.srnyndrs.android.searchhub.domain.util.Constants
 import com.srnyndrs.android.searchhub.domain.util.convertToDate
-import com.srnyndrs.android.searchhub.domain.util.getDateTime
+import com.srnyndrs.android.searchhub.domain.util.getDate
+import com.srnyndrs.android.searchhub.presentation.components.IconLabel
 import com.srnyndrs.android.searchhub.ui.theme.SearchHubTheme
 
 @Composable
 fun RepositoryCard(
-    repository: Repository?,
+    repository: Repository,
     onClick: () -> Unit
 ) {
-    Card(
+    OutlinedCard(
         modifier = Modifier
             .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(vertical = 6.dp),
+            .wrapContentHeight(),
         onClick = onClick
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(12.dp),
-            verticalArrangement = Arrangement.Top,
+            verticalArrangement = Arrangement.spacedBy(0.dp),
             horizontalAlignment = Alignment.Start
         ) {
-            // Repository name
-            Text(text = repository?.name ?: "Unknown", fontWeight = FontWeight.Bold)
-            HorizontalDivider(thickness = 1.dp)
-            Spacer(modifier = Modifier.padding(vertical = 2.dp))
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(0.dp),
+                horizontalAlignment = Alignment.Start
+            ) {
+                // Repository name
+                Text(
+                    modifier = Modifier.padding(start = 3.dp),
+                    text = repository.name,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                // Stars and update date
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    IconLabel(
+                        icon = Icons.Default.Star,
+                        value = repository.stars.toString()
+                    )
+                    IconLabel(
+                        icon = ImageVector.vectorResource(R.drawable.calendar_refresh),
+                        value = repository.updatedAt.convertToDate().getDate()
+                    )
+                }
+            }
+
+            HorizontalDivider(
+                thickness = 1.dp,
+                color = MaterialTheme.colorScheme.onTertiaryContainer
+            )
+
             // Description
-            val description = repository?.description ?: "No description provided"
             Text(
                 // Display according to description character limit
-                text = if(description.length > Constants.DESCRIPTION_CHAR_LIMIT) {
-                            description.chunked(Constants.DESCRIPTION_CHAR_LIMIT)[0].plus("...")
-                        } else {
-                            description
-                        }
-            )
-            Spacer(modifier = Modifier.padding(vertical = 2.dp))
-            // Number of stars
-            IconLabel(
-                icon = Icons.Default.Star,
-                value = repository?.stars?.toString() ?: "Unknown"
-            )
-            Spacer(modifier = Modifier.padding(vertical = 2.dp))
-            // Date of the last update
-            IconLabel(
-                icon = ImageVector.vectorResource(R.drawable.calendar_refresh),
-                value =  repository?.updatedAt?.convertToDate().getDateTime()
+                text = if(repository.description.length > Constants.DESCRIPTION_CHAR_LIMIT) {
+                    repository.description.chunked(Constants.DESCRIPTION_CHAR_LIMIT)[0].plus("...")
+                } else {
+                    repository.description
+                },
+                fontStyle = FontStyle.Italic,
+                textAlign = TextAlign.Justify
             )
         }
     }
@@ -79,26 +106,26 @@ fun RepositoryCard(
 
 @PreviewLightDark
 @Composable
-fun RepositoryCardPreview() {
+fun RepositoryCardPreview(
+    @PreviewParameter(SampleRepositoryProvider::class) repositories: List<Repository>
+) {
     SearchHubTheme {
-        Surface {
-            RepositoryCard(
-                repository = Repository(
-                    name = "k8s",
-                    owner = Owner(
-                        name = "srnyndrs",
-                        profilePath = "",
-                        avatarPath = ""
-                    ),
-                    description = "",
-                    repositoryPath = "",
-                    stars = 5,
-                    forks = 5,
-                    createdAt = "",
-                    updatedAt = ""
-                ),
-                onClick = {}
-            )
+        Surface(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 3.dp, horizontal = 6.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                repositories.forEach { repository ->
+                    RepositoryCard(
+                        repository = repository,
+                        onClick = {}
+                    )
+                }
+            }
         }
     }
 }
